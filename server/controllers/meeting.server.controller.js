@@ -9,3 +9,8 @@ exports.getAll = (req, res) => {
 
     res.status(200).send(data);
 }
+
+exports.create = (req, res) => {
+    console.log(req.body);
+    res.status(204).send();
+}
