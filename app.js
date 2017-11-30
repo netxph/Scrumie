@@ -1,20 +1,18 @@
-let express = require("express");
-let bodyParser = require("body-parser");
-let router = require("./router.js");
+var express = require("express");
+var router = require("./router.js");
+var bodyParser = require("body-parser");
 
-const PORT = 3000;
+var app = express();
 
-let app = express();
-
-app.use(bodyParser.urlencoded({ extended: true }))
+app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
-app.use("/api", router);
 app.use(express.static("./public"));
-app.use("*", (req, res) => {
+app.use("/api", router);
+app.use("*", function(req, res) {
     res.send("Resource not found (404).");
 });
 
-app.listen(PORT, () => {
-    console.log(`[${PORT}] server started.`);
+app.listen(3000, function() {
+    console.log("Server started at PORT 3000");
 });

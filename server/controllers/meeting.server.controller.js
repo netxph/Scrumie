@@ -1,16 +1,12 @@
-exports.getAll = (req, res) => {
-    data = [{ 
-        id: 1, 
-        name: "Marc Vitalis", 
+exports.getAll = function(req, res) {
+
+    var data = [ {
+        name: "Marc Vitalis",
         project: "Scrumie",
-        yesterday: "is history",
-        today: "is present",
-        impediment: "is story" }];
+        yesterday: "... is history",
+        today: "... is present",
+        impediment: "... is a mystery"
+    }];
 
-    res.status(200).send(data);
-}
-
-exports.create = (req, res) => {
-    console.log(req.body);
-    res.status(204).send();
+    res.status(200).json(data);
 }
