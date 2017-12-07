@@ -4,25 +4,12 @@ class ScrumBox extends React.Component {
         super();
 
         this.state = {
-            meetings: [
-            {
-                id: 1,
-                name: "Marc Vitalis",
-                project: "Scrumie",
-                yesterday: "... is history",
-                today: "... is present",
-                impediment: "... is a mystery"
-            },
-            {
-                id: 2,
-                name: "Jan Lloyd Cruz",
-                project: "Scrumie",
-                yesterday: "... is doing",
-                today: "... is done",
-                impediment: "... is blocking"
-            }
-            ]
+            meetings: []
         };
+    }
+
+    componentWillMount() {
+        this._getMeetings();
     }
 
     render() {
@@ -30,13 +17,25 @@ class ScrumBox extends React.Component {
             <div>
                 <h1>Scrum Meeting</h1>
                 <MeetingForm addMeeting={this._addComment.bind(this)} />                        
-                <MeetingList meetings={this._getMeetings()} />
+                <MeetingList meetings={this.state.meetings} />
             </div>
         );
     }
 
     _getMeetings() {
-        return this.state.meetings;
+        $.ajax({
+            url: "/api/meeting",
+            method: "GET",
+            headers: {
+                "Authorization": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoibmV0eHBoIiwiYWNjZXNzIjoibWVldGluZ19jcmVhdGUsbWVldGluZ19lZGl0LG1lZXRpbmdfdmlldyIsImlhdCI6MTUxMjY0NDEyNSwiZXhwIjoxNTEyNjQ1NTY1fQ._QHq5zHggg6-4xBUwF1PtsM4xBA1g7zKVwZbV--kxnE",
+                "Content-Type": "application/json"
+            },
+            success: (meetings) => {
+                this.setState({
+                    meetings
+                });
+            }
+        });
     }
 
     _addComment(meeting) {
