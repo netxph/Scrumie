@@ -1,69 +1,5 @@
 class ScrumBox extends React.Component {
 
-    render() {
-        return(
-            <div>
-                <h1>Scrum Meeting</h1>
-                <MeetingForm />                        
-                <MeetingList />
-            </div>
-        );
-    }
-}
-
-class MeetingForm extends React.Component {
-
-    constructor() {
-        super();
-
-        this.state = {
-            message: ""
-        }
-    }
-    
-    render() {
-
-        return(
-<form>
-        <div>
-            <label htmlFor="name">Name</label>
-            <input type="text" id="name" />
-        </div>
-        <div>
-            <label htmlFor="project">Project</label>
-            <input type="text" id="project" />
-        </div>
-        <div>
-            <label htmlFor="yesterday">Yesterday</label><br/>
-            <textarea id="yesterday" name="yesterday" />
-        </div>
-        <div>
-            <label htmlFor="today">Today</label><br/>
-            <textarea id="today" />
-        </div>
-        <div>
-            <label htmlFor="impediment">Impediment</label><br/>
-            <textarea id="impediment" />
-        </div>
-            <div><input type="submit" onClick={this._handleClick.bind(this)} /></div>
-        <p>{this.state.message}</p>
-
-    </form>
-
-        );
-    }
-
-    _handleClick(e) {
-        e.preventDefault();
-
-        this.setState({
-            message: "Item added."
-        });
-    }
-}
-
-class MeetingList extends React.Component {
-
     constructor() {
         super();
 
@@ -90,6 +26,91 @@ class MeetingList extends React.Component {
     }
 
     render() {
+        return(
+            <div>
+                <h1>Scrum Meeting</h1>
+                <MeetingForm addMeeting={this._addComment.bind(this)} />                        
+                <MeetingList meetings={this._getMeetings()} />
+            </div>
+        );
+    }
+
+    _getMeetings() {
+        return this.state.meetings;
+    }
+
+    _addComment(meeting) {
+        meeting.id = this.state.meetings.length + 1; 
+
+        this.setState({
+            meetings: this.state.meetings.concat([meeting]) });
+    }
+}
+
+class MeetingForm extends React.Component {
+
+    constructor() {
+        super();
+
+        this.state = {
+            message: ""
+        };
+    }
+
+    render() {
+
+        return(
+<form onSubmit={this._handleSubmit.bind(this)} id="meeting-form">
+        <div>
+            <label htmlFor="name">Name</label>
+            <input type="text" id="name" ref={(input) => this._name = input} />
+        </div>
+        <div>
+            <label htmlFor="project">Project</label>
+            <input type="text" id="project" ref={(input) => this._project = input} />
+        </div>
+        <div>
+            <label htmlFor="yesterday">Yesterday</label><br/>
+            <textarea id="yesterday" ref={(textarea) => this._yesterday = textarea }/>
+        </div>
+        <div>
+            <label htmlFor="today">Today</label><br/>
+            <textarea id="today" ref={(textarea) => this._today = textarea } />
+        </div>
+        <div>
+            <label htmlFor="impediment">Impediment</label><br/>
+            <textarea id="impediment" ref={(textarea) => this._impediment = textarea } />
+        </div>
+            <div><input type="submit"/></div>
+            <p>{this.state.message}</p>
+    </form>
+
+        );
+    }
+
+    _handleSubmit(e) {
+        e.preventDefault();
+
+        let meeting = {
+            name: this._name.value,
+            project: this._project.value,
+            yesterday: this._yesterday.value,
+            today: this._today.value,
+            impediment: this._impediment.value
+        };
+
+        this.props.addMeeting(meeting);
+        document.getElementById("meeting-form").reset();
+
+        this.setState({
+            message: "Item added."
+        });
+    }
+}
+
+class MeetingList extends React.Component {
+
+    render() {
         const meetings = this._getMeetings();
 
         return(
@@ -108,7 +129,7 @@ class MeetingList extends React.Component {
     }
 
     _getMeetings() {
-        return this.state.meetings; 
+        return this.props.meetings;
     }
 }
 
