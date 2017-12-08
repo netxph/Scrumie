@@ -3,15 +3,157 @@
 <head>
     <meta charset="UTF-8">
     <title>Scrumie</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/css/style.css">
 </head>
 <body>
-        
-    <div id="root"></div>
-        
+
+    <nav class="navbar navbar-light bg-light justify-content-between">
+        <a class="navbar-brand">Scrumie</a>
+        <form class="form-inline">
+            <select class="form-control mr-sm-2">
+                <option>Team Rocket</option>
+                <option>Team Crystal</option>
+            </select>
+            <select class="form-control mr-sm-2">
+                <option>December 2017</option>
+                <option>November 2017</option>
+            </select>
+            <select class="form-control mr-sm-2">
+                <option>1</option>
+                <option>2</option>
+            </select>
+            <button class="btn btn-outline-success my-2 my-sm-0" type="submit">View</button>
+        </form>
+    </nav>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-sm">
+                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
+                    +New
+                </button>
+
+                <!-- Modal -->
+                <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="exampleModalLabel">New Note</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <form>
+                                <div class="modal-body">
+                                    <div class="form-group">
+                                        <label for="name">Name</label>
+                                        <select class="form-control" id="name">
+                                            <option>Kedren Villena</option>
+                                            <option>Marc Vitalis</option>
+                                            <option>Jan Navarro</option>
+                                            <option>James Delos Santos</option>
+                                        </select>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="project">Project</label>
+                                        <select class="form-control" id="project">
+                                            <option>Team Rocket</option>
+                                            <option>Team Crystal</option>
+                                        </select>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="yesterday">Yesterday</label>
+                                        <textarea class="form-control" id="yesterday" rows="3"></textarea>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="today">Today</label>
+                                        <textarea class="form-control" id="today" rows="3"></textarea>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="impediment">Impediment</label>
+                                        <textarea class="form-control" id="impediment" rows="3"></textarea>
+                                    </div>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                    <button type="button" class="btn btn-primary">Save changes</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div> 
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm">
+                <div class="card-deck">
+                    <div class="card">
+                        <div class="card-body">
+                            <h4 class="card-title">Marc Vitalis</h4>
+                            <h6 class="card-subtitle mb-2 text-muted">Yesterday</h6>
+                            <p class="card-text">This is a longer card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
+                            <h6 class="card-subtitle mb-2 text-muted">Today</h6>
+                            <p class="card-text">This is a longer card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
+                            <h6 class="card-subtitle mb-2 text-muted">Impediments</h6>
+                            <p class="card-text">This is a longer card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
+                            <a href="#" class="card-link">Edit</a>
+                            <a href="#" class="card-link">Delete</a>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <div class="card-body">
+                            <h4 class="card-title">Kedren Villena</h4>
+                            <h6 class="card-subtitle mb-2 text-muted">Yesterday</h6>
+                            <p class="card-text">This is a longer card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
+                            <h6 class="card-subtitle mb-2 text-muted">Today</h6>
+                            <p class="card-text">This is a longer card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
+                            <h6 class="card-subtitle mb-2 text-muted">Impediments</h6>
+                            <p class="card-text">This is a longer card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
+                            <a href="#" class="card-link">Edit</a>
+                            <a href="#" class="card-link">Delete</a>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <div class="card-body">
+                            <h4 class="card-title">Jan Navarro</h4>
+                            <h6 class="card-subtitle mb-2 text-muted">Yesterday</h6>
+                            <p class="card-text">This is a longer card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
+                            <h6 class="card-subtitle mb-2 text-muted">Today</h6>
+                            <p class="card-text">This is a longer card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
+                            <h6 class="card-subtitle mb-2 text-muted">Impediments</h6>
+                            <p class="card-text">This is a longer card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
+                            <a href="#" class="card-link">Edit</a>
+                            <a href="#" class="card-link">Delete</a>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <div class="card-body">
+                            <h4 class="card-title">James Delos Santos</h4>
+                            <h6 class="card-subtitle mb-2 text-muted">Yesterday</h6>
+                            <p class="card-text">This is a longer card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
+                            <h6 class="card-subtitle mb-2 text-muted">Today</h6>
+                            <p class="card-text">This is a longer card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
+                            <h6 class="card-subtitle mb-2 text-muted">Impediments</h6>
+                            <p class="card-text">This is a longer card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
+                            <a href="#" class="card-link">Edit</a>
+                            <a href="#" class="card-link">Delete</a>
+                        </div>
+                    </div>
+                </div> 
+            </div>
+        </div>
+        <hr>
+        <footer class="footer">
+            <p>(c) Scrumie 2017</p>
+        </footer>
+    </div>
+
     <script src="https://unpkg.com/react@16/umd/react.development.js"></script>
     <script src="https://unpkg.com/react-dom@16/umd/react-dom.development.js"></script>
     <script src="https://code.jquery.com/jquery-3.2.1.js"></script>
     <script src="https://unpkg.com/babel-standalone@6.15.0/babel.min.js"></script>
-    <script type="text/babel" src="/js/components.js"></script>
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js"></script>
 </body>
 </html>
