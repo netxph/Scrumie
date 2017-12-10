@@ -8,9 +8,15 @@ let userSchema = new Schema({
     createdOn: { type: Date, default: Date.now }
 });
 
-userSchema.pre("save", (next) => {
+userSchema.pre("save", function(next) {
     bcrypt
         .hash(this.password, 10)
-        .then((hash) => this.password = hash);
-    next(); 
+        .then((hash) => {
+            this.password = hash
+            next();
+        });
 });
+
+var User = mongoose.model("User", userSchema);
+
+module.exports = User;
