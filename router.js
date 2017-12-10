@@ -2,6 +2,7 @@ var express = require("express");
 var jwt = require("jsonwebtoken");
 var sessionCtrl = require("./server/controllers/session.server.controller.js");
 var meetingCtrl = require("./server/controllers/meeting.server.controller.js");
+var accountCtrl = require("./server/controllers/account.server.controller.js");
 
 var router = express.Router();
 
@@ -9,7 +10,7 @@ var router = express.Router();
 router.use(function(req, res, next) {
     var token = req.headers.authorization;
 
-    if(!req.url.startsWith("/session"))
+    if(!req.url.startsWith("/session") && !req.url.startsWith("/account/register"))
     {
         if(!token) {
             return res.status(401).send();
@@ -30,7 +31,8 @@ router.use(function(req, res, next) {
 
 //authorization middleware
 router.use(function(req, res, next) {
-    if(!req.url.startsWith("/session")) {
+    if(!req.url.startsWith("/session") && 
+        !req.url.startsWith("/account/register")) {
         console.log(req.decoded);
 
         var access = req.decoded.access.split(",");
@@ -48,5 +50,7 @@ router.use(function(req, res, next) {
 
 router.get("/meeting", meetingCtrl.getAll);
 router.post("/session", sessionCtrl.create);
+
+router.post("/account/register", accountCtrl.register);
 
 module.exports = router;

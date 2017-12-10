@@ -1,8 +1,9 @@
-var express = require("express");
-var router = require("./router.js");
-var bodyParser = require("body-parser");
+let express = require("express");
+let router = require("./router.js");
+let bodyParser = require("body-parser");
+let mongoose = require("mongoose");
 
-var app = express();
+let app = express();
 
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
@@ -11,6 +12,11 @@ app.use(express.static("./public"));
 app.use("/api", router);
 app.use("*", function(req, res) {
     res.send("Resource not found (404).");
+});
+
+//db init
+mongoose.connect("mongodb://localhost/scrumie", {
+    useMongoClient: true
 });
 
 app.listen(3000, function() {
