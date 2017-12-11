@@ -19,6 +19,8 @@ mongoose.connect("mongodb://localhost/scrumie", {
     useMongoClient: true
 });
 
+mongoose.promise = Promise;
+
 app.listen(3000, function() {
     console.log("Server started at PORT 3000");
 });

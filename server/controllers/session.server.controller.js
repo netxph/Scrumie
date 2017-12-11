@@ -1,23 +1,36 @@
 let jwt = require("jsonwebtoken");
+let bcrypt = require("bcrypt");
+let User = require("../models/user.server.model.js");
 
 exports.create = function(req, res) {
 
-    var login = req.body || { userId: "", password: "" };
+    let login = req.body || { name: "", password: "" };
 
-    if(login.password == "password") {
-        var payload = {
-            name: login.userId,
-            access: "meeting_create,meeting_edit,meeting_view"
-        }
+    User.findPasswordHash(login.name)
+        .then((hash) => {
+            bcrypt.compare(login.password, hash)
+                .then((success) => {
+                    if(success) {
+                        var payload = {
+                            name: login.userId
+                        }
 
-        var token = jwt.sign(payload, "secret", {
-            expiresIn: 1440
+                        var token = jwt.sign(payload, "secret", {
+                            expiresIn: 1440
+                        });
+
+                        res.set("Authorization", `Bearer ${token}`);
+                        return res.status(204).send();
+                    } else {
+                        return res.status(401).send();
+                    }
+                })
+                .catch((error) => {
+                    return res.status(401).send();
+                });
+        })
+        .catch((error) => {
+            return res.status(401).send();
         });
-
-        res.set("Authorization", token);
-        res.status(204).send();
-    } else {
-        res.status(401).send();
-    }
 }
 

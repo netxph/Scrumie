@@ -1,16 +1,17 @@
-var express = require("express");
-var jwt = require("jsonwebtoken");
-var sessionCtrl = require("./server/controllers/session.server.controller.js");
-var meetingCtrl = require("./server/controllers/meeting.server.controller.js");
-var accountCtrl = require("./server/controllers/account.server.controller.js");
+let express = require("express");
+let jwt = require("jsonwebtoken");
+let sessionCtrl = require("./server/controllers/session.server.controller.js");
+let meetingCtrl = require("./server/controllers/meeting.server.controller.js");
+let accountCtrl = require("./server/controllers/account.server.controller.js");
 
-var router = express.Router();
+let router = express.Router();
 
 //authentication middleware
 router.use(function(req, res, next) {
-    var token = req.headers.authorization;
+    let token = req.headers.authorization;
 
-    if(!req.url.startsWith("/session") && !req.url.startsWith("/account/register"))
+    if(!req.url.startsWith("/session") && 
+        !req.url.startsWith("/account/register"))
     {
         if(!token) {
             return res.status(401).send();
@@ -29,28 +30,9 @@ router.use(function(req, res, next) {
     }
 });
 
-//authorization middleware
-router.use(function(req, res, next) {
-    if(!req.url.startsWith("/session") && 
-        !req.url.startsWith("/account/register")) {
-        console.log(req.decoded);
-
-        var access = req.decoded.access.split(",");
-
-        if(req.url == "/meeting" && access.includes("meeting_view")) {
-            next();
-        } else {
-            return res.status(401).send();
-        }
-
-    } else {
-        next();
-    }
-});
-
 router.get("/meeting", meetingCtrl.getAll);
-router.post("/session", sessionCtrl.create);
 
+router.post("/session", sessionCtrl.create);
 router.post("/account/register", accountCtrl.register);
 
 module.exports = router;

@@ -11,9 +11,9 @@ exports.register = (req, res) => {
     entry.save((error, data) => {
         if(error) {
             console.error(error);
-            res.status(500).send();
+            return res.status(500).send();
         } else {
-            res.status(204).send();
+            return res.status(204).send();
         }
     });
 }
