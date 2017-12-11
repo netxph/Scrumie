@@ -10,6 +10,7 @@ app.use(bodyParser.json());
 
 app.use(express.static("./public"));
 app.use("/api", router);
+
 app.use("*", function(req, res) {
     res.send("Resource not found (404).");
 });
