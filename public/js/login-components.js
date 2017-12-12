@@ -57,7 +57,7 @@ class LoginBox extends React.Component {
             url: "/api/session",
             data: session
         }).done((res, status, xhr) => {
-            localStorage.setItem("token", xhr.getResponseHeader("Authorization"));
+            sessionStorage.setItem("token", xhr.getResponseHeader("Authorization"));
             this.setState({ redirect: true });
         }).fail((xhr) => {
             if(xhr.status == 401) {

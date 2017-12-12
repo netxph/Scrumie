@@ -1,6 +1,12 @@
 class ScrumBox extends React.Component {
 
     render() {
+        if(!sessionStorage.getItem("token")) {
+            return (
+                <Redirect to="/session/new" />
+            );
+        }
+
         return (
             <div className="container-fluid">
             <div className="row">
