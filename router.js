@@ -11,5 +11,7 @@ router.post("/account/register", accountCtrl.register);
 
 router.get("/meeting", auth.check, meetingCtrl.getAll);
 router.post("/meeting", auth.check, meetingCtrl.create);
+router.put("/meeting/:meetingId", auth.check, meetingCtrl.update);
+router.delete("/meeting/:meetingId", auth.check, meetingCtrl.delete);
 
 module.exports = router;

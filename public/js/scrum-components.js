@@ -23,6 +23,12 @@ class ScrumBox extends React.Component {
             console.log(meetings);
         }).fail((xhr) => {
             console.log(xhr.status);
+
+            if(xhr.status == 401) {
+                this.setState({
+                    auth: false
+                });
+            }
         });
 
         if(!sessionStorage.getItem("token")) {
@@ -99,6 +105,7 @@ class MeetingList extends React.Component {
             meetings.map((meeting) => 
                     <MeetingCard 
                         key={meeting._id}
+                        meetingId={meeting._id}
                         name={meeting.name}
                         yesterday={meeting.yesterday}
                         today={meeting.today}
@@ -114,7 +121,29 @@ class MeetingList extends React.Component {
 
 class MeetingCard extends React.Component {
 
+    constructor() {
+        super();
+
+        this.state = {
+            refresh: false,
+            edit: ""
+        }
+    }
+
     render() {
+
+        if(this.state.edit != "") {
+            return (
+                <Redirect to={`/meeting/${this.state.edit}`} />
+            );
+        }
+
+        if(this.state.refresh) {
+            return (                
+                <Redirect to="/" />
+            );
+        }
+
         return(
                     <div className="card">
                         <div className="card-body">
@@ -125,11 +154,56 @@ class MeetingCard extends React.Component {
                             <p className="card-text">{this.props.today}</p>
                             <h6 className="card-subtitle mb-2 text-muted">Impediments</h6>
                             <p className="card-text">{this.props.impediment}</p>
-                            <a href="#" className="card-link">Edit</a>
-                            <a href="#" className="card-link">Delete</a>
+                            <ManageButton meetingId={this.props.meetingId} action={this._handleEdit.bind(this)} text="Edit" />
+                            <ManageButton meetingId={this.props.meetingId} action={this._handleDelete.bind(this)} text="Delete" />
                         </div>
                     </div>
         );
+    }
+
+    _handleEdit(meetingId) {
+        console.log(meetingId);
+
+        this.setState({
+            edit: meetingId
+        });
+    }
+
+    _handleDelete(meetingId) {
+        console.log(meetingId);
+
+        $.ajax({
+            type: "DELETE",
+            url: `/api/meeting/${meetingId}`,
+            headers: {
+                "Authorization": sessionStorage.getItem("token")
+            }
+        }).done((res, status, xhr) => {
+            this.setState({
+                refresh: true
+            });
+        }).fail((xhr) => {
+            console.log(xhr.status);
+        });
+    }
+
+}
+
+class ManageButton extends React.Component {
+
+    constructor() {
+        super();
+    }
+
+    render() {
+        return (
+            <a href="#" onClick={this._handleEdit.bind(this)} className="card-link">{this.props.text}</a>
+        );
+    }
+
+    _handleEdit(e) {
+        e.preventDefault();
+        this.props.action(this.props.meetingId);
     }
 
 }

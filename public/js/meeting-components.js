@@ -1,4 +1,50 @@
-class MeetingBox extends React.Component {
+class MeetingEditBox extends React.Component {
+
+    render() {
+
+        return(
+        <div className="container-fluid">
+            <div className="row">
+                <div className="col-sm"></div>
+                <div className="col-sm" id="col-sm-meeting">
+                            <form onSubmit={this._handleSubmit.bind(this)}>
+                                <div className="modal-body">
+                                    <div className="form-group">
+                                        <label htmlFor="yesterday">Yesterday</label>
+                                        <textarea ref={(textarea) => this._yesterday = textarea} className="form-control" id="yesterday" rows="3"></textarea>
+                                    </div>
+                                    <div className="form-group">
+                                        <label htmlFor="today">Today</label>
+                                        <textarea ref={(textarea) => this._today = textarea} className="form-control" id="today" rows="3"></textarea>
+                                    </div>
+                                    <div className="form-group">
+                                        <label htmlFor="impediment">Impediment</label>
+                                        <textarea ref={(textarea) => this._impediment = textarea} className="form-control" id="impediment" rows="3"></textarea>
+                                    </div>
+                                </div>
+                                <div className="modal-footer">
+                                    <button type="button" onClick={this._handleClose.bind(this)} className="btn btn-secondary" data-dismiss="modal">Close</button>
+                                    <input type="submit" className="btn btn-primary" />
+                                </div>
+                            </form>
+                </div>
+                <div className="col-sm"></div>
+            </div>
+        </div>
+        );
+    }
+
+    _handleSubmit(e) {
+        e.preventDefault();
+
+    }
+
+    _handleClose(e) {
+        e.preventDefault();
+    }
+}
+
+class MeetingNewBox extends React.Component {
 
     constructor() {
         super();
@@ -19,7 +65,7 @@ class MeetingBox extends React.Component {
 
     render() {
 
-        if(!this.state.auth)) {
+        if(!this.state.auth) {
             return (
                 <Redirect to="/session/new" />
             );

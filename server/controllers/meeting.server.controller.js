@@ -24,3 +24,32 @@ exports.create = function(req, res) {
         }
     });
 }
+
+exports.delete = function(req, res) {
+    console.log(req.params.meetingId);
+
+    Meeting.findByIdAndRemove(req.params.meetingId, function(err, data) {
+        if(!err) {
+            res.status(204).send();
+        } else {
+            res.status(500).send();
+        }
+    });
+}
+
+exports.update = function(req, res) {
+    console.log(req.params.meetingId);
+    let meeting = {
+        yesterday: req.body.yesterday,
+        today: req.body.today,
+        impediment: req.body.impediment
+    }
+
+    Meeting.findByIdAndUpdate(req.params.meetingId, meeting, function(err, data) {
+        if(!err) {
+            res.status(204).send();
+        } else {
+            res.status(500).send();
+        }
+    })
+}
