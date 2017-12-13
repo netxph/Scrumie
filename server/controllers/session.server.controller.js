@@ -26,10 +26,12 @@ exports.create = function(req, res) {
                     }
                 })
                 .catch((error) => {
+                    console.log(error);
                     return res.status(401).send();
                 });
         })
         .catch((error) => {
+            console.log(error);
             return res.status(401).send();
         });
 }

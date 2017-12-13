@@ -1,5 +1,29 @@
 class ScrumBox extends React.Component {
 
+    constructor() {
+        super();
+
+        this.state = {
+            meetings: []
+        }
+    }
+
+    componentWillMount() {
+
+        $.ajax({
+            type: "GET",
+            url: "/api/meeting",
+            headers: {
+                "Authorization": sessionStorage.getItem("token")
+            }
+        }).done((meetings, status, xhr) => {
+            this.setState({ meetings });
+            console.log(res);
+        }).fail((xhr) => {
+            console.log(xhr.status);
+        });
+    }
+
     render() {
         if(!sessionStorage.getItem("token")) {
             return (
@@ -87,58 +111,7 @@ class ScrumBox extends React.Component {
         <div className="row">
             <div className="col-sm">
                 <div className="card-deck">
-                    <div className="card">
-                        <div className="card-body">
-                            <h4 className="card-title">Marc Vitalis</h4>
-                            <h6 className="card-subtitle mb-2 text-muted">Yesterday</h6>
-                            <p className="card-text">This is a longer card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
-                            <h6 className="card-subtitle mb-2 text-muted">Today</h6>
-                            <p className="card-text">This is a longer card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
-                            <h6 className="card-subtitle mb-2 text-muted">Impediments</h6>
-                            <p className="card-text">This is a longer card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
-                            <a href="#" className="card-link">Edit</a>
-                            <a href="#" className="card-link">Delete</a>
-                        </div>
-                    </div>
-                    <div className="card">
-                        <div className="card-body">
-                            <h4 className="card-title">Kedren Villena</h4>
-                            <h6 className="card-subtitle mb-2 text-muted">Yesterday</h6>
-                            <p className="card-text">This is a longer card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
-                            <h6 className="card-subtitle mb-2 text-muted">Today</h6>
-                            <p className="card-text">This is a longer card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
-                            <h6 className="card-subtitle mb-2 text-muted">Impediments</h6>
-                            <p className="card-text">This is a longer card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
-                            <a href="#" className="card-link">Edit</a>
-                            <a href="#" className="card-link">Delete</a>
-                        </div>
-                    </div>
-                    <div className="card">
-                        <div className="card-body">
-                            <h4 className="card-title">Jan Navarro</h4>
-                            <h6 className="card-subtitle mb-2 text-muted">Yesterday</h6>
-                            <p className="card-text">This is a longer card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
-                            <h6 className="card-subtitle mb-2 text-muted">Today</h6>
-                            <p className="card-text">This is a longer card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
-                            <h6 className="card-subtitle mb-2 text-muted">Impediments</h6>
-                            <p className="card-text">This is a longer card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
-                            <a href="#" className="card-link">Edit</a>
-                            <a href="#" className="card-link">Delete</a>
-                        </div>
-                    </div>
-                    <div className="card">
-                        <div className="card-body">
-                            <h4 className="card-title">James Delos Santos</h4>
-                            <h6 className="card-subtitle mb-2 text-muted">Yesterday</h6>
-                            <p className="card-text">This is a longer card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
-                            <h6 className="card-subtitle mb-2 text-muted">Today</h6>
-                            <p className="card-text">This is a longer card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
-                            <h6 className="card-subtitle mb-2 text-muted">Impediments</h6>
-                            <p className="card-text">This is a longer card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
-                            <a href="#" className="card-link">Edit</a>
-                            <a href="#" className="card-link">Delete</a>
-                        </div>
-                    </div>
+                    <MeetingList meetings={this.state.meetings} />
                 </div> 
             </div>
         </div>
@@ -147,3 +120,46 @@ class ScrumBox extends React.Component {
     }
 }
 
+class MeetingList extends React.Component {
+
+    render() {
+        let meetings = this._getMeetings();
+
+        return(
+            meetings.map((meeting) => 
+                    <MeetingCard 
+                        key={meeting._id}
+                        name={meeting.name}
+                        yesterday={meeting.yesterday}
+                        today={meeting.today}
+                        impediment={meeting.impediment} />
+                )
+        );
+    }
+
+    _getMeetings() {
+        return this.props.meetings;
+    }
+}
+
+class MeetingCard extends React.Component {
+
+    render() {
+        return(
+                    <div className="card">
+                        <div className="card-body">
+                            <h4 className="card-title">{this.props.name}</h4>
+                            <h6 className="card-subtitle mb-2 text-muted">Yesterday</h6>
+                            <p className="card-text">{this.props.yesterday}</p>
+                            <h6 className="card-subtitle mb-2 text-muted">Today</h6>
+                            <p className="card-text">{this.props.today}</p>
+                            <h6 className="card-subtitle mb-2 text-muted">Impediments</h6>
+                            <p className="card-text">{this.props.impediment}</p>
+                            <a href="#" className="card-link">Edit</a>
+                            <a href="#" className="card-link">Delete</a>
+                        </div>
+                    </div>
+        );
+    }
+
+}
