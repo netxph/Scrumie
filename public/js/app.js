@@ -16,10 +16,10 @@ class AppBox extends React.Component {
                 <a className="navbar-brand">Scrumie</a>
             </nav>
             <div id="content">
-                <Route exact path="/meeting/new" component={MeetingNew} />
-                <Route exact path="/session/new" component={Login} />
-                <Route path="/meeting/:id" component={MeetingEdit} />
-                <Route exact path="/" component={Home} />
+                <Route exact path="/meeting/new" component={MeetingNewBox} />
+                <Route exact path="/session/new" component={LoginBox} />
+                <Route path="/meeting/:meetingId" component={MeetingEditBox} />
+                <Route exact path="/" component={ScrumBox} />
             </div>
                     <hr />
         <footer className="footer">

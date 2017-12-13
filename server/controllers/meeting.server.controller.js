@@ -12,6 +12,18 @@ exports.getAll = function(req, res) {
         });
 }
 
+exports.getById = function(req, res) {
+
+    Meeting.findById(req.params.meetingId, function(err, meeting) {
+        if(err) {
+            console.log(err);
+            return res.status(500).send();
+        } else {
+            return res.status(200).send(meeting);
+        }
+    });
+}
+
 exports.create = function(req, res) {
     let meeting = new Meeting(req.body);
 
