@@ -10,5 +10,6 @@ router.post("/session", sessionCtrl.create);
 router.post("/account/register", accountCtrl.register);
 
 router.get("/meeting", auth.check, meetingCtrl.getAll);
+router.post("/meeting", auth.check, meetingCtrl.create);
 
 module.exports = router;

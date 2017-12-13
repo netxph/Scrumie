@@ -16,6 +16,7 @@ class AppBox extends React.Component {
                 <a className="navbar-brand">Scrumie</a>
             </nav>
             <div id="content">
+                <Route exact path="/meeting/new" component={Meeting} />
                 <Route exact path="/session/new" component={Login} />
                 <Route exact path="/" component={Home} />
             </div>
@@ -31,5 +32,6 @@ class AppBox extends React.Component {
 }
 const Login = () => <LoginBox />
 const Home = () => <ScrumBox />
+const Meeting = () => <MeetingBox />
 
 ReactDOM.render(<AppBox />, document.getElementById("root"));

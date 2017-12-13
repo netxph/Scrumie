@@ -67,40 +67,32 @@ class ScrumBox extends React.Component {
                                     <span aria-hidden="true">&times;</span>
                                 </button>
                             </div>
-                            <form>
+                            <form onSubmit={this._handleSubmit.bind(this)}>
                                 <div className="modal-body">
                                     <div className="form-group">
                                         <label htmlFor="name">Name</label>
-                                        <select className="form-control" id="name">
-                                            <option>Kedren Villena</option>
-                                            <option>Marc Vitalis</option>
-                                            <option>Jan Navarro</option>
-                                            <option>James Delos Santos</option>
-                                        </select>
+                                        <input type="text" ref={(input) => this._name = input} className="form-control" id="name" />
                                     </div>
                                     <div className="form-group">
                                         <label htmlFor="project">Project</label>
-                                        <select className="form-control" id="project">
-                                            <option>Team Rocket</option>
-                                            <option>Team Crystal</option>
-                                        </select>
+                                        <input type="text" ref={(input) => this._project = input} className="form-control" id="project" />
                                     </div>
                                     <div className="form-group">
                                         <label htmlFor="yesterday">Yesterday</label>
-                                        <textarea className="form-control" id="yesterday" rows="3"></textarea>
+                                        <textarea ref={(textarea) => this._yesterday = textarea} className="form-control" id="yesterday" rows="3"></textarea>
                                     </div>
                                     <div className="form-group">
                                         <label htmlFor="today">Today</label>
-                                        <textarea className="form-control" id="today" rows="3"></textarea>
+                                        <textarea ref={(textarea) => this._today = textarea} className="form-control" id="today" rows="3"></textarea>
                                     </div>
                                     <div className="form-group">
                                         <label htmlFor="impediment">Impediment</label>
-                                        <textarea className="form-control" id="impediment" rows="3"></textarea>
+                                        <textarea ref={(textarea) => this._impediment = textarea} className="form-control" id="impediment" rows="3"></textarea>
                                     </div>
                                 </div>
                                 <div className="modal-footer">
                                     <button type="button" className="btn btn-secondary" data-dismiss="modal">Close</button>
-                                    <button type="button" className="btn btn-primary">Save changes</button>
+                                    <input type="submit" className="btn btn-primary" />
                                 </div>
                             </form>
                         </div>
@@ -117,6 +109,21 @@ class ScrumBox extends React.Component {
         </div>
 </div>
         );
+    }
+
+    _handleSubmit(e) {
+        e.preventDefault();
+
+        let meeting = {
+            name: this._name.value,
+            project: this._project.value,
+            yesterday: this._yesterday.value,
+            today: this._today.value,
+            impediment: this._impediment.value
+        }
+
+        console.log(meeting);
+
     }
 }
 

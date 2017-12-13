@@ -1,12 +1,26 @@
+const Meeting = require("../models/meeting.server.model.js");
+
 exports.getAll = function(req, res) {
 
-    var data = [ {
-        name: "Marc Vitalis",
-        project: "Scrumie",
-        yesterday: "... is history",
-        today: "... is present",
-        impediment: "... is a mystery"
-    }];
+    Meeting.findAll()
+        .then((meetings) => {
+            return res.status(200).json(meetings);
+        })
+        .catch((error) => {
+            console.log(error);
+            return res.status(400).send();
+        });
+}
 
-    res.status(200).json(data);
+exports.create = function(req, res) {
+    let meeting = new Meeting(req.body);
+
+    meeting.save((err, meeting) => {
+        if(err) {
+            console.log(err);
+            return res.status(500).send();
+        } else {
+            return res.status(204).send();
+        }
+    });
 }
