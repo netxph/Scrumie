@@ -4,7 +4,7 @@ const Schema = mongoose.Schema;
 mongoose.Promise = global.Promise;
 
 let meetingSchema = new Schema({
-    name: { type: String, required: true, unique: true },
+    name: { type: String, required: true },
     project: { type: String, required: true },
     yesterday: String,
     today: String,

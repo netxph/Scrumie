@@ -1,12 +1,42 @@
 class MeetingBox extends React.Component {
 
+    constructor() {
+        super();
+        
+        this.state = {
+            done: false,
+            auth: true
+        }
+    }
+
+    componentWillMount() {
+        if(!sessionStorage.getItem("token")) {
+            this.setState({
+                auth: false
+            });
+        }
+    }
+
     render() {
+
+        if(!this.state.auth)) {
+            return (
+                <Redirect to="/session/new" />
+            );
+        }
+
+        if(this.state.done) {
+            return (
+                <Redirect to="/" />
+            );
+        }
+
         return (
         <div className="container-fluid">
             <div className="row">
                 <div className="col-sm"></div>
                 <div className="col-sm" id="col-sm-meeting">
-                            <form>
+                            <form onSubmit={this._handleSubmit.bind(this)}>
                                 <div className="modal-body">
                                     <div className="form-group">
                                         <label htmlFor="name">Name</label>
@@ -30,7 +60,7 @@ class MeetingBox extends React.Component {
                                     </div>
                                 </div>
                                 <div className="modal-footer">
-                                    <button type="button" className="btn btn-secondary" data-dismiss="modal">Close</button>
+                                    <button type="button" onClick={this._handleClose.bind(this)} className="btn btn-secondary" data-dismiss="modal">Close</button>
                                     <input type="submit" className="btn btn-primary" />
                                 </div>
                             </form>
@@ -39,5 +69,46 @@ class MeetingBox extends React.Component {
             </div>
         </div>
         );
+    }
+
+    _handleClose(e) {
+        e.preventDefault(e);
+
+        this._close();
+    }
+
+    _handleSubmit(e) {
+        e.preventDefault();
+
+        let meeting = {
+            name: this._name.value,
+            project: this._project.value,
+            yesterday: this._yesterday.value,
+            today: this._today.value,
+            impediment: this._impediment.value
+        }
+
+        $.ajax({
+            type: "POST",
+            url: "/api/meeting",
+            headers: {
+                "Authorization": sessionStorage.getItem("token")
+            },
+            data: meeting
+        }).done((meeting, status, xhr) => {
+            console.log(meeting);
+            this._close();
+        }).fail((xhr) => {
+            console.log(xhr.status);
+        });
+
+
+    }
+
+    _close() {
+
+        this.setState({
+            done: true
+        });
     }
 }

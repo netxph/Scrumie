@@ -4,7 +4,9 @@ class ScrumBox extends React.Component {
         super();
 
         this.state = {
-            meetings: []
+            meetings: [],
+            editMode: false,
+            auth: true
         }
     }
 
@@ -18,16 +20,28 @@ class ScrumBox extends React.Component {
             }
         }).done((meetings, status, xhr) => {
             this.setState({ meetings });
-            console.log(res);
+            console.log(meetings);
         }).fail((xhr) => {
             console.log(xhr.status);
         });
+
+        if(!sessionStorage.getItem("token")) {
+            this.setState({
+                auth: false
+            });
+        }
     }
 
     render() {
-        if(!sessionStorage.getItem("token")) {
+        if(!this.state.auth) {
             return (
                 <Redirect to="/session/new" />
+            );
+        }
+
+        if(this.state.editMode) {
+            return (
+                <Redirect to="/meeting/new" />
             );
         }
 
@@ -49,57 +63,13 @@ class ScrumBox extends React.Component {
                 <option>2</option>
             </select>
             <button className="btn btn-outline-success my-2 my-sm-0 mr-sm-2" type="submit">View</button>
-                <button type="button" className="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
+                <button type="button" onClick={this._handleClick.bind(this)} className="btn btn-primary">
                     +New
                 </button>
         </form>
 
                 </div>
             </div>
-        <div className="row">
-            <div className="col-sm">
-                <div className="modal fade" id="exampleModal" tabIndex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                    <div className="modal-dialog" role="document">
-                        <div className="modal-content">
-                            <div className="modal-header">
-                                <h5 className="modal-title" id="exampleModalLabel">New Note</h5>
-                                <button type="button" className="close" data-dismiss="modal" aria-label="Close">
-                                    <span aria-hidden="true">&times;</span>
-                                </button>
-                            </div>
-                            <form onSubmit={this._handleSubmit.bind(this)}>
-                                <div className="modal-body">
-                                    <div className="form-group">
-                                        <label htmlFor="name">Name</label>
-                                        <input type="text" ref={(input) => this._name = input} className="form-control" id="name" />
-                                    </div>
-                                    <div className="form-group">
-                                        <label htmlFor="project">Project</label>
-                                        <input type="text" ref={(input) => this._project = input} className="form-control" id="project" />
-                                    </div>
-                                    <div className="form-group">
-                                        <label htmlFor="yesterday">Yesterday</label>
-                                        <textarea ref={(textarea) => this._yesterday = textarea} className="form-control" id="yesterday" rows="3"></textarea>
-                                    </div>
-                                    <div className="form-group">
-                                        <label htmlFor="today">Today</label>
-                                        <textarea ref={(textarea) => this._today = textarea} className="form-control" id="today" rows="3"></textarea>
-                                    </div>
-                                    <div className="form-group">
-                                        <label htmlFor="impediment">Impediment</label>
-                                        <textarea ref={(textarea) => this._impediment = textarea} className="form-control" id="impediment" rows="3"></textarea>
-                                    </div>
-                                </div>
-                                <div className="modal-footer">
-                                    <button type="button" className="btn btn-secondary" data-dismiss="modal">Close</button>
-                                    <input type="submit" className="btn btn-primary" />
-                                </div>
-                            </form>
-                        </div>
-                    </div>
-                </div> 
-            </div>
-        </div>
         <div className="row">
             <div className="col-sm">
                 <div className="card-deck">
@@ -111,19 +81,12 @@ class ScrumBox extends React.Component {
         );
     }
 
-    _handleSubmit(e) {
+    _handleClick(e) {
         e.preventDefault();
 
-        let meeting = {
-            name: this._name.value,
-            project: this._project.value,
-            yesterday: this._yesterday.value,
-            today: this._today.value,
-            impediment: this._impediment.value
-        }
-
-        console.log(meeting);
-
+        this.setState({
+            editMode: true
+        });
     }
 }
 
