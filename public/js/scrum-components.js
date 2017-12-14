@@ -55,24 +55,9 @@ class ScrumBox extends React.Component {
             <div className="container-fluid">
             <div className="row">
                 <div className="col-sm">
-            <form className="form-inline float-right">
-            <select className="form-control mr-sm-2">
-                <option>Team Rocket</option>
-                <option>Team Crystal</option>
-            </select>
-            <select className="form-control mr-sm-2">
-                <option>December 2017</option>
-                <option>November 2017</option>
-            </select>
-            <select className="form-control mr-sm-2">
-                <option>1</option>
-                <option>2</option>
-            </select>
-            <button className="btn btn-outline-success my-2 my-sm-0 mr-sm-2" type="submit">View</button>
-                <button type="button" onClick={this._handleClick.bind(this)} className="btn btn-primary">
+                <button type="button" onClick={this._handleClick.bind(this)} className="btn btn-primary float-right">
                     +New
                 </button>
-        </form>
 
                 </div>
             </div>
@@ -134,7 +119,7 @@ class MeetingCard extends React.Component {
 
         if(this.state.edit != "") {
             return (
-                <Redirect to={`/meeting/${this.state.edit}`} />
+                <Redirect to={`/meetings/${this.state.edit}`} />
             );
         }
 
